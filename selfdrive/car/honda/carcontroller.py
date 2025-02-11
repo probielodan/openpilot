@@ -102,7 +102,7 @@ HUDData = namedtuple("HUDData",
 
 def rate_limit_steer(new_steer, last_steer):
   # TODO just hardcoded ramp to min/max in 0.33s for all Honda
-  MAX_DELTA = 3 * DT_CTRL
+  MAX_DELTA = 10 * DT_CTRL
   return clip(new_steer, last_steer - MAX_DELTA, last_steer + MAX_DELTA)
 
 
@@ -227,7 +227,7 @@ class CarController(CarControllerBase):
     can_sends = []
 
     # tester present - w/ no response (keeps radar disabled)
-    if self.CP.carFingerprint in (HONDA_BOSCH - HONDA_BOSCH_RADARLESS - HONDA_CANFD_CAR) and self.CP.openpilotLongitudinalControl:
+    if self.CP.carFingerprint in (HONDA_BOSCH - HONDA_BOSCH_RADARLESS) and self.CP.openpilotLongitudinalControl:
       if self.frame % 10 == 0:
         can_sends.append((0x18DAB0F1, 0, b"\x02\x3E\x80\x00\x00\x00\x00\x00", 1))
 
